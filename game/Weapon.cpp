@@ -2620,6 +2620,8 @@ void rvWeapon::LaunchProjectiles ( idDict& dict, const idVec3& muzzleOrigin, con
 	if ( gameLocal.isClient ) {
 		return;
 	}
+
+	gameLocal.Printf("Projectile Launched\n");
 	
 	// Let the AI know about the new attack
 	if ( !gameLocal.isMultiplayer ) {

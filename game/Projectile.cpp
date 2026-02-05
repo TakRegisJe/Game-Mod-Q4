@@ -1222,6 +1222,25 @@ void idProjectile::Explode( const trace_t *collision, const bool showExplodeFX, 
 			removeTime = delay;
 		}
 	}
+
+	// If the projectile is a rocket spawn frinedly marine on explsoion
+	const char* proj = spawnArgs.GetString("def_projectile", "");
+	gameLocal.Printf("def_projectile is '%s'\n", proj);
+	if ( idStr::Cmp( spawnArgs.GetString("def_projectile", ""), "projectile_rocket" ) == 0 ) {
+		const char* spawnDef = spawnArgs.GetString("def_spawn_on_explode", "" );
+		gameLocal.Printf("def_spawn_on_explode is '%s'\n", spawnDef);
+		if ( *spawnDef ) {
+			const idDict* spawnDict = gameLocal.FindEntityDefDict(spawnDef, false);
+			if ( spawnDict ) {
+				gameLocal.Printf( "spawnDict if statement resolved to true\n" );
+				idDict args = *spawnDict;
+				args.Set( "team", 0 );
+				args.SetVector( "origin", endpos );
+				idProjectile* spawnProjectile = NULL;
+				gameLocal.SpawnEntityDef( args, (idEntity**)&spawnProjectile );
+			}
+		}
+	}
 			
  	CancelEvents( &EV_Explode );
 	PostEventMS( &EV_Remove, removeTime );
