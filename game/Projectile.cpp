@@ -1234,10 +1234,10 @@ void idProjectile::Explode( const trace_t *collision, const bool showExplodeFX, 
 			if ( spawnDict ) {
 				gameLocal.Printf( "spawnDict if statement resolved to true\n" );
 				idDict args = *spawnDict;
-				args.Set( "team", 0 );
+				args.Set( "team", "0" );
 				args.SetVector( "origin", endpos );
-				idProjectile* spawnProjectile = NULL;
-				gameLocal.SpawnEntityDef( args, (idEntity**)&spawnProjectile );
+				idEntity* spawnMarine = NULL;
+				gameLocal.SpawnEntityDef( args, &spawnMarine );
 			}
 		}
 	}
