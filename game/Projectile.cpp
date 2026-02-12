@@ -1224,9 +1224,9 @@ void idProjectile::Explode( const trace_t *collision, const bool showExplodeFX, 
 	}
 
 	// If the projectile is a rocket spawn frinedly marine on explsoion
-	const char* proj = spawnArgs.GetString("def_projectile", "");
-	gameLocal.Printf("def_projectile is '%s'\n", proj);
-	if ( idStr::Cmp( spawnArgs.GetString("def_projectile", ""), "projectile_rocket" ) == 0 ) {
+	const char* proj = spawnArgs.GetString("classname", "");
+	gameLocal.Printf("classname is '%s'\n", proj);
+	if ( idStr::Cmp( spawnArgs.GetString("classname", ""), "projectile_rocket" ) == 0 ) {
 		const char* spawnDef = spawnArgs.GetString("def_spawn_on_explode", "" );
 		gameLocal.Printf("def_spawn_on_explode is '%s'\n", spawnDef);
 		if ( *spawnDef ) {
