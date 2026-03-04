@@ -621,6 +621,10 @@ public:
 	int						GetItemCost(const char* itemName);
 // RITUAL END
 	void					PerformImpulse( int impulse );
+	//MOD
+	void					SpawnFriendlyMarine( const char *defName );
+	void					ToggleSlowMotion( void );
+	//MOD-END
 	void					Spectate( bool spectate, bool force = false );
  	void					ToggleObjectives ( void );
  	void					ToggleScoreboard( void );
@@ -800,6 +804,9 @@ protected:
 	void					SetupHead( const char* modelKeyName = "", idVec3 headOffset = idVec3(0, 0, 0) );
 
 private:
+	//MOD
+	bool					slowMotionActive;
+	//MOD-END
 	float					vehicleCameraDist;
 
 	jointHandle_t			hipJoint;

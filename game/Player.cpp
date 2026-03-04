@@ -1108,6 +1108,9 @@ idPlayer::idPlayer() {
 	mphud					= NULL;
 	objectiveSystem			= NULL;
 	objectiveSystemOpen		= false;
+	//MOD
+	slowMotionActive		= false;
+	//MOD-END
 	showNewObjectives		= false;
 #ifdef _XENON
 	g_ObjectiveSystemOpen	= false;
@@ -8427,6 +8430,45 @@ void idPlayer::GenerateImpulseForBuyAttempt( const char* itemName ) {
 
 /*
 ==============
+idPlayer::SpawnFriendlyMarine
+==============
+*/
+//MOD
+void idPlayer::SpawnFriendlyMarine( const char *defName ) {
+	// Compute a spawn position 128 units directly in front of the player
+	idVec3 forward;
+	viewAngles.ToVectors( &forward, NULL, NULL );
+	idVec3 spawnPos = GetPhysics()->GetOrigin() + forward * 128.0f;
+
+	idDict args;
+	args.Set( "origin", spawnPos.ToString() );
+
+	idEntity *marine = gameLocal.SpawnEntityDef( defName, &args );
+	if ( !marine ) {
+		gameLocal.Warning( "SpawnFriendlyMarine: could not spawn '%s'", defName );
+	}
+}
+//MOD-END
+
+/*
+==============
+idPlayer::ToggleSlowMotion
+==============
+*/
+//MOD
+void idPlayer::ToggleSlowMotion( void ) {
+	if ( !slowMotionActive ) {
+		gameLocal.msec /= 2;
+		slowMotionActive = true;
+	} else {
+		gameLocal.msec *= 2;
+		slowMotionActive = false;
+	}
+}
+//MOD-END
+
+/*
+==============
 idPlayer::PerformImpulse
 ==============
 */
@@ -8551,6 +8593,15 @@ void idPlayer::PerformImpulse( int impulse ) {
    			break;
    		}
 				
+		//MOD
+		case IMPULSE_16: { ToggleSlowMotion(); break; }
+		case IMPULSE_23: { SpawnFriendlyMarine( "marine_def1" ); break; }
+		case IMPULSE_24: { SpawnFriendlyMarine( "marine_def2" ); break; }
+		case IMPULSE_25: { SpawnFriendlyMarine( "marine_def3" ); break; }
+		case IMPULSE_26: { SpawnFriendlyMarine( "marine_def4" ); break; }
+		case IMPULSE_27: { SpawnFriendlyMarine( "marine_def5" ); break; }
+		//MOD-END
+
 		case IMPULSE_28: {
  			if ( gameLocal.isClient || entityNumber == gameLocal.localClientNum ) {
  				gameLocal.mpGame.CastVote( gameLocal.localClientNum, true );

@@ -1,1 +1,15 @@
 .vs/
+*.vcxproj.user
+UpgradeLog.htm
+Backup/
+Debug/
+Release/
+x64/
+x86/
+*.obj
+*.pdb
+*.ilk
+*.exe
+*.dll
+*.lib
+*.exp
