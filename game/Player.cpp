@@ -8469,6 +8469,17 @@ void idPlayer::ToggleSlowMotion( void ) {
 
 /*
 ==============
+idPlayer::ToggleCloak
+==============
+*/
+//MOD
+void idPlayer::ToggleCloak( void ) {
+	fl.notarget = !fl.notarget;
+}
+//MOD-END
+
+/*
+==============
 idPlayer::PerformImpulse
 ==============
 */
@@ -8595,6 +8606,7 @@ void idPlayer::PerformImpulse( int impulse ) {
 				
 		//MOD
 		case IMPULSE_16: { ToggleSlowMotion(); break; }
+		case IMPULSE_30: { ToggleCloak(); break; }
 		case IMPULSE_23: { SpawnFriendlyMarine( "marine_def1" ); break; }
 		case IMPULSE_24: { SpawnFriendlyMarine( "marine_def2" ); break; }
 		case IMPULSE_25: { SpawnFriendlyMarine( "marine_def3" ); break; }
