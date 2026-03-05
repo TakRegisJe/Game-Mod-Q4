@@ -625,6 +625,7 @@ public:
 	void					SpawnFriendlyMarine( const char *defName );
 	void					ToggleSlowMotion( void );
 	void					ToggleCloak( void );
+	void					DefectVisibleEnemies( void );
 	//MOD-END
 	void					Spectate( bool spectate, bool force = false );
  	void					ToggleObjectives ( void );

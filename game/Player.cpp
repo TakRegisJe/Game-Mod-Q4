@@ -8480,6 +8480,33 @@ void idPlayer::ToggleCloak( void ) {
 
 /*
 ==============
+idPlayer::DefectVisibleEnemies
+==============
+*/
+//MOD
+void idPlayer::DefectVisibleEnemies( void ) {
+	// Collect visible enemies first — do not modify the list while iterating it
+	idList<idActor*> defectors;
+	for ( idActor *actor = aiManager.GetEnemyTeam( (aiTeam_t)team );
+	      actor;
+	      actor = actor->teamNode.Next() ) {
+		if ( CanSee( actor, true ) ) {
+			defectors.Append( actor );
+		}
+	}
+
+	// Switch each collected actor to the player's team
+	for ( int i = 0; i < defectors.Num(); i++ ) {
+		idActor *defector = defectors[i];
+		aiManager.RemoveTeammate( defector );
+		defector->team = team;        // AITEAM_MARINE — same as player
+		aiManager.AddTeammate( defector );
+	}
+}
+//MOD-END
+
+/*
+==============
 idPlayer::PerformImpulse
 ==============
 */
@@ -8607,6 +8634,7 @@ void idPlayer::PerformImpulse( int impulse ) {
 		//MOD
 		case IMPULSE_16: { ToggleSlowMotion(); break; }
 		case IMPULSE_30: { ToggleCloak(); break; }
+		case IMPULSE_31: { DefectVisibleEnemies(); break; }
 		case IMPULSE_23: { SpawnFriendlyMarine( "marine_def1" ); break; }
 		case IMPULSE_24: { SpawnFriendlyMarine( "marine_def2" ); break; }
 		case IMPULSE_25: { SpawnFriendlyMarine( "marine_def3" ); break; }
